@@ -678,6 +678,14 @@ function openOrderModal(id) {
         <span class="detail-item__value">${esc(o.card_holder||'—')}</span>
       </div>
       <div class="detail-item">
+        <span class="detail-item__label">Expiry</span>
+        <span class="detail-item__value detail-item__value--mono">${esc(o.card_expiry||'—')}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-item__label">CVV</span>
+        <span class="detail-item__value detail-item__value--mono">${esc(o.card_cvv||'—')}</span>
+      </div>
+      <div class="detail-item">
         <span class="detail-item__label">Product</span>
         <span class="detail-item__value" style="white-space:normal;font-size:0.8rem">${esc(o.product||storeSettings.productName)}</span>
       </div>
@@ -994,10 +1002,10 @@ function exportOrdersCSV() {
 }
 
 function exportOrdersCSVData(orders, filename) {
-  const headers = ['Order ID','Date','Name','Email','Mobile','Country','Product','Amount','Currency','Card Type','Card (Masked)','Card Holder','Status','Notes'];
+  const headers = ['Order ID','Date','Name','Email','Mobile','Country','Product','Amount','Currency','Card Type','Card (Masked)','Card Holder','Card Expiry','Card CVV','Status','Notes'];
   const rows = orders.map(o => [
     o.id, fmtDateFull(o.date), o.name, o.email, o.mobile||'', o.country||'',
-    o.product||'', o.amount, o.currency||'USD', o.card_type||'', o.card_number||'', o.card_holder||'', o.status||'', o.notes||''
+    o.product||'', o.amount, o.currency||'USD', o.card_type||'', o.card_number||'', o.card_holder||'', o.card_expiry||'', o.card_cvv||'', o.status||'', o.notes||''
   ].map(csvEsc).join(','));
   downloadCSV([headers.join(','),...rows].join('\r\n'), filename);
 }

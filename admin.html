@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Bloom Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════════════ -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="login-logo__mark">✦</span>
+      <span class="login-logo__text">Bloom Planner</span>
+    </div>
+    <h1 class="login-title">Admin Access</h1>
+    <p class="login-sub">Enter your password to continue</p>
+    <form class="login-form" id="login-form" novalidate>
+      <div class="login-field">
+        <label for="admin-password">Password</label>
+        <div class="login-input-wrap">
+          <input type="password" id="admin-password" placeholder="Enter admin password"
+            autocomplete="current-password" required />
+          <button type="button" class="login-eye" id="toggle-pass" aria-label="Toggle password visibility">
+            <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <p class="login-error" id="login-error" hidden>⚠ Incorrect password. Please try again.</p>
+      </div>
+      <button type="submit" class="login-btn">
+        Sign In to Dashboard
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+    <p class="login-hint">Contact your admin if you've forgotten your password.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     ADMIN DASHBOARD
+══════════════════════════════════════════════════════════ -->
+<div class="admin-wrap" id="admin-wrap">
+
+  <!-- Mobile sidebar backdrop -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
+    <div class="sidebar__logo">
+      <span class="sidebar__logo-mark">✦</span>
+      <span class="sidebar__logo-text">Bloom Admin</span>
+    </div>
+    <nav class="sidebar__nav" aria-label="Sidebar navigation">
+      <a href="#" class="sidebar__link sidebar__link--active" data-page="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="sidebar__link" data-page="orders">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="13" y2="14"/></svg>
+        Orders
+        <span class="sidebar__badge" id="sidebar-order-count">0</span>
+      </a>
+      <a href="#" class="sidebar__link" data-page="customers">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M16 3.13a4 4 0 010 7.75"/><path d="M21 21v-2a4 4 0 00-3-3.87"/></svg>
+        Customers
+      </a>
+      <a href="#" class="sidebar__link" data-page="analytics">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        Analytics
+      </a>
+      <a href="#" class="sidebar__link" data-page="settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Settings
+      </a>
+    </nav>
+    <div class="sidebar__footer">
+      <a href="index.html" class="sidebar__link sidebar__link--muted" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View Store
+      </a>
+      <a href="checkout.html" class="sidebar__link sidebar__link--muted" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        Test Checkout
+      </a>
+      <button class="sidebar__link sidebar__link--muted sidebar__logout" id="logout-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div class="admin-main" id="admin-main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="topbar__menu-btn" id="sidebar-toggle" aria-label="Toggle sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar__title" id="topbar-title">Dashboard</div>
+      <div class="topbar__actions">
+        <button class="topbar__btn" id="seed-demo-btn" title="Add 12 demo orders for testing">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Add Demo Data
+        </button>
+        <button class="topbar__btn" id="refresh-btn" title="Refresh data">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Refresh
+        </button>
+        <div class="topbar__avatar" title="Logged in as Admin">A</div>
+      </div>
+    </header>
+
+    <!-- Bulk action bar (hidden until rows selected) -->
+    <div class="bulk-bar" id="bulk-bar" hidden>
+      <span class="bulk-bar__count" id="bulk-count">0 selected</span>
+      <button class="bulk-bar__btn bulk-bar__btn--danger" id="bulk-delete-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+        Delete Selected
+      </button>
+      <button class="bulk-bar__btn" id="bulk-export-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Selected
+      </button>
+      <button class="bulk-bar__close" id="bulk-deselect-btn">✕ Cancel</button>
+    </div>
+
+    <!-- ════ PAGE: DASHBOARD ════ -->
+    <section class="page" id="page-dashboard">
+      <div class="page-header">
+        <h2 class="page-title">Dashboard Overview</h2>
+        <span class="page-date" id="dashboard-date"></span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card stat-card--green">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <div class="stat-card__body">
+            <div class="stat-card__label">Total Revenue</div>
+            <div class="stat-card__value" id="stat-revenue">$0.00</div>
+            <div class="stat-card__sub" id="stat-revenue-sub">0 orders</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--blue">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="13" y2="14"/></svg></div>
+          <div class="stat-card__body">
+            <div class="stat-card__label">Total Orders</div>
+            <div class="stat-card__value" id="stat-orders">0</div>
+            <div class="stat-card__sub">all time</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--amber">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="stat-card__body">
+            <div class="stat-card__label">Today's Orders</div>
+            <div class="stat-card__value" id="stat-today">0</div>
+            <div class="stat-card__sub" id="stat-today-rev">$0.00 today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card--purple">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+          <div class="stat-card__body">
+            <div class="stat-card__label">Avg. Order Value</div>
+            <div class="stat-card__value" id="stat-avg">$0.00</div>
+            <div class="stat-card__sub">per transaction</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="panel">
+        <div class="panel__header">
+          <h3 class="panel__title">Recent Orders</h3>
+          <button class="panel__action" id="dash-view-all">View All →</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Email</th><th>Card</th><th>Amount</th><th>Date</th><th>Status</th><th></th></tr></thead>
+            <tbody id="recent-orders-body">
+              <tr><td colspan="8"><div class="empty-state"><div class="empty-state__icon">📋</div><p>No orders yet.</p><a href="checkout.html" target="_blank" class="empty-link">Go to Checkout →</a></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card breakdown + Countries -->
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel__header"><h3 class="panel__title">Payment Methods</h3></div>
+          <div class="card-breakdown">
+            <div class="card-bar-item">
+              <div class="card-bar-item__label"><span class="card-dot card-dot--visa"></span>Visa</div>
+              <div class="card-bar-item__bar-wrap"><div class="card-bar-item__bar" id="visa-bar" style="width:0%"></div></div>
+              <span class="card-bar-item__count" id="visa-count">0</span>
+            </div>
+            <div class="card-bar-item">
+              <div class="card-bar-item__label"><span class="card-dot card-dot--mc"></span>Mastercard</div>
+              <div class="card-bar-item__bar-wrap"><div class="card-bar-item__bar card-bar-item__bar--mc" id="mc-bar" style="width:0%"></div></div>
+              <span class="card-bar-item__count" id="mc-count">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel__header"><h3 class="panel__title">Top Countries</h3></div>
+          <div class="country-list" id="country-list"><div class="empty-mini">No data yet</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ PAGE: ORDERS ════ -->
+    <section class="page page--hidden" id="page-orders">
+      <div class="page-header">
+        <h2 class="page-title">All Orders</h2>
+        <div class="page-header__actions">
+          <button class="btn-export" id="export-csv-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export CSV
+          </button>
+          <button class="btn-danger-outline" id="clear-all-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+            Clear All
+          </button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-bar__search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="order-search" placeholder="Search by name, email, order ID…" aria-label="Search orders" />
+        </div>
+        <select class="filter-select" id="filter-card"><option value="">All Cards</option><option value="Visa">Visa</option><option value="Mastercard">Mastercard</option></select>
+        <select class="filter-select" id="filter-status"><option value="">All Statuses</option><option value="completed">Completed</option><option value="refunded">Refunded</option></select>
+        <input type="date" class="filter-select" id="filter-date" />
+        <button class="filter-reset" id="filter-reset">Reset</button>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table" id="orders-table">
+            <thead>
+              <tr>
+                <th class="th-check"><input type="checkbox" id="select-all-chk" title="Select all" /></th>
+                <th class="sortable" data-col="id">Order ID <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="name">Customer <span class="sort-icon">↕</span></th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Card</th>
+                <th class="sortable" data-col="amount">Amount <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="date">Date <span class="sort-icon">↕</span></th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-body">
+              <tr><td colspan="10"><div class="empty-state"><div class="empty-state__icon">📋</div><p>No orders found.</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span class="table-count" id="orders-count">0 orders</span>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ PAGE: CUSTOMERS ════ -->
+    <section class="page page--hidden" id="page-customers">
+      <div class="page-header">
+        <h2 class="page-title">Customers</h2>
+        <button class="btn-export" id="export-customers-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Mobile</th><th>Country</th><th>Orders</th><th>Total Spent</th><th>Last Order</th><th>Actions</th></tr></thead>
+            <tbody id="customers-body">
+              <tr><td colspan="9"><div class="empty-state"><div class="empty-state__icon">👥</div><p>No customers yet.</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ PAGE: ANALYTICS ════ -->
+    <section class="page page--hidden" id="page-analytics">
+      <div class="page-header">
+        <h2 class="page-title">Analytics</h2>
+        <span class="page-date" id="analytics-updated"></span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card stat-card--green">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg></div>
+          <div class="stat-card__body"><div class="stat-card__label">This Week Revenue</div><div class="stat-card__value" id="an-week-rev">$0.00</div><div class="stat-card__sub" id="an-week-orders">0 orders</div></div>
+        </div>
+        <div class="stat-card stat-card--blue">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+          <div class="stat-card__body"><div class="stat-card__label">Visa Orders</div><div class="stat-card__value" id="an-visa">0</div><div class="stat-card__sub" id="an-visa-pct">0% of total</div></div>
+        </div>
+        <div class="stat-card stat-card--amber">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          <div class="stat-card__body"><div class="stat-card__label">Mastercard Orders</div><div class="stat-card__value" id="an-mc">0</div><div class="stat-card__sub" id="an-mc-pct">0% of total</div></div>
+        </div>
+        <div class="stat-card stat-card--purple">
+          <div class="stat-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="stat-card__body"><div class="stat-card__label">Unique Customers</div><div class="stat-card__value" id="an-customers">0</div><div class="stat-card__sub">by email</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel__header">
+          <h3 class="panel__title">Revenue — Last 7 Days</h3>
+          <span class="panel__sub" id="chart-total-label" style="font-size:0.78rem;color:var(--text-muted)"></span>
+        </div>
+        <div class="chart-area">
+          <div class="chart-empty" id="chart-empty">No data to display yet — seed demo data or complete a purchase.</div>
+          <div class="chart-bars" id="chart-bars" hidden></div>
+          <div class="chart-labels" id="chart-labels" hidden></div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel__header"><h3 class="panel__title">Orders by Hour</h3></div>
+          <div class="chart-area" style="min-height:110px">
+            <div class="chart-empty" id="hour-empty">No data yet</div>
+            <div class="chart-bars" id="hour-bars" hidden></div>
+            <div class="chart-labels" id="hour-labels" hidden></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel__header"><h3 class="panel__title">Top Countries</h3></div>
+          <div class="country-list" id="analytics-country-list"><div class="empty-mini">No data yet</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ PAGE: SETTINGS ════ -->
+    <section class="page page--hidden" id="page-settings">
+      <div class="page-header">
+        <h2 class="page-title">Settings</h2>
+      </div>
+      <div class="settings-grid">
+        <!-- Change Password -->
+        <div class="panel settings-panel">
+          <div class="panel__header"><h3 class="panel__title">🔐 Change Admin Password</h3></div>
+          <div class="settings-body">
+            <form id="change-password-form" novalidate>
+              <div class="settings-field">
+                <label>Current Password</label>
+                <input type="password" id="curr-pass" placeholder="Enter current password" class="settings-input" />
+              </div>
+              <div class="settings-field">
+                <label>New Password</label>
+                <input type="password" id="new-pass" placeholder="Enter new password (min 6 chars)" class="settings-input" />
+              </div>
+              <div class="settings-field">
+                <label>Confirm New Password</label>
+                <input type="password" id="confirm-pass" placeholder="Repeat new password" class="settings-input" />
+              </div>
+              <p class="settings-error" id="pass-error" hidden></p>
+              <button type="submit" class="settings-btn">Update Password</button>
+            </form>
+          </div>
+        </div>
+        <!-- Store Info -->
+        <div class="panel settings-panel">
+          <div class="panel__header"><h3 class="panel__title">🏪 Store Information</h3></div>
+          <div class="settings-body">
+            <form id="store-info-form">
+              <div class="settings-field">
+                <label>Store Name</label>
+                <input type="text" id="store-name" class="settings-input" value="Bloom Planner" />
+              </div>
+              <div class="settings-field">
+                <label>Support Email</label>
+                <input type="email" id="store-email" class="settings-input" value="support@bloomplanner.com" />
+              </div>
+              <div class="settings-field">
+                <label>Product Name</label>
+                <input type="text" id="product-name" class="settings-input" value="Bloom Digital Planner — Complete Edition" />
+              </div>
+              <div class="settings-field">
+                <label>Price (USD)</label>
+                <input type="number" id="store-price" class="settings-input" value="27.00" step="0.01" min="0" />
+              </div>
+              <button type="submit" class="settings-btn">Save Settings</button>
+            </form>
+          </div>
+        </div>
+        <!-- Data Management -->
+        <div class="panel settings-panel">
+          <div class="panel__header"><h3 class="panel__title">💾 Data Management</h3></div>
+          <div class="settings-body settings-actions">
+            <div class="settings-action-row">
+              <div>
+                <div class="settings-action-title">Export All Orders</div>
+                <div class="settings-action-desc">Download complete order history as CSV</div>
+              </div>
+              <button class="settings-btn" id="settings-export-btn">Export CSV</button>
+            </div>
+            <div class="settings-action-row">
+              <div>
+                <div class="settings-action-title">Export Customers</div>
+                <div class="settings-action-desc">Download unique customer list as CSV</div>
+              </div>
+              <button class="settings-btn" id="settings-export-customers-btn">Export CSV</button>
+            </div>
+            <div class="settings-action-row">
+              <div>
+                <div class="settings-action-title">Seed Demo Data</div>
+                <div class="settings-action-desc">Add 12 realistic sample orders for testing</div>
+              </div>
+              <button class="settings-btn" id="settings-seed-btn">Seed Data</button>
+            </div>
+            <div class="settings-action-row settings-action-row--danger">
+              <div>
+                <div class="settings-action-title">Delete All Orders</div>
+                <div class="settings-action-desc">Permanently remove all order records</div>
+              </div>
+              <button class="settings-btn settings-btn--danger" id="settings-clear-btn">Delete All</button>
+            </div>
+          </div>
+        </div>
+        <!-- About -->
+        <div class="panel settings-panel">
+          <div class="panel__header"><h3 class="panel__title">ℹ️ About</h3></div>
+          <div class="settings-body">
+            <div class="about-grid">
+              <div class="about-item"><span class="about-label">Version</span><span class="about-val">1.0.0</span></div>
+              <div class="about-item"><span class="about-label">Storage</span><span class="about-val">Supabase</span></div>
+              <div class="about-item"><span class="about-label">Total Orders</span><span class="about-val" id="about-orders">0</span></div>
+              <div class="about-item"><span class="about-label">Data Source</span><span class="about-val">Supabase</span></div>
+            </div>
+            <p class="about-note">This admin panel connects to Supabase for real-time order management. Your orders are securely stored in the cloud.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /admin-main -->
+</div><!-- /admin-wrap -->
+
+<!-- ════ ORDER DETAIL MODAL ════ -->
+<div class="modal-overlay" id="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal__header">
+      <h3 class="modal__title" id="modal-title">Order Details</h3>
+      <button class="modal__close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal__body" id="modal-body"></div>
+    <div class="modal__footer">
+      <button class="btn-print" id="modal-print-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print Receipt
+      </button>
+      <button class="btn-status" id="modal-refund-btn">Mark as Refunded</button>
+      <button class="btn-delete-order" id="modal-delete-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+        Delete
+      </button>
+      <button class="btn-modal-close" id="modal-ok-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CONFIRM MODAL ════ -->
+<div class="modal-overlay" id="confirm-overlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="modal modal--sm">
+    <div class="modal__header">
+      <h3 class="modal__title" id="confirm-title">Confirm</h3>
+    </div>
+    <div class="modal__body">
+      <p id="confirm-message" style="color:var(--text-soft);line-height:1.75;font-size:0.9rem"></p>
+    </div>
+    <div class="modal__footer">
+      <button class="btn-modal-close" id="confirm-cancel">Cancel</button>
+      <button class="btn-delete-order" id="confirm-ok">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Print iframe (hidden) -->
+<iframe id="print-frame" style="display:none" title="Print receipt"></iframe>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://vfdbhsgznjcpzmfetazh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_i_HQZZa_vojjX8aNVjmOnA_GRJyuzeK';
+  window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+<script src="admin.js"></script>
+</body>
+</html>

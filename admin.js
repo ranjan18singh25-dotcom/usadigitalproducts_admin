@@ -593,7 +593,7 @@ function initBulkActions() {
     if (!selectedIds.size) return;
     confirmAction(`Delete ${selectedIds.size} selected order${selectedIds.size!==1?'s':''}? Cannot be undone.`, () => {
       allOrders = allOrders.filter(o => !selectedIds.has(o.id));
-      saveOrders(); loadOrders(); refreshAllPages();
+      updateOrderInSupabase(); loadOrders(); refreshAllPages();
       showToast(`🗑 ${selectedIds.size} orders deleted.`, 'info');
       selectedIds.clear(); updateBulkBar();
     });
